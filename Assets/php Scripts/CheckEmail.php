@@ -13,7 +13,7 @@
 	{
 		die("Connection Not Successful.".mysqli_connect_error());
 	}
-//http://localhost/nsirpg/CheckEmail.php
+//http://localhost/nsirpg/checkemail.php
 
 	$checkAccount = "SELECT username FROM users WHERE email = '".$email."'";
 	$checkResult = mysqli_query($conn, $checkAccount);

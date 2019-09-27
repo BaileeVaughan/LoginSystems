@@ -14,7 +14,7 @@
 	{
 		die("Connection Not Successful.".mysqli_connect_error());
 	}
-//http://localhost/nsirpg/Login.php
+//http://localhost/nsirpg/login.php
 
 //Check users exist
 	$namecheckquery = "SELECT username, salt, hash, FROM users WHERE username = '".$username."';";

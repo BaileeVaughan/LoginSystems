@@ -14,7 +14,7 @@
 	{
 		die("Connection Not Successful.".mysqli_connect_error());
 	}
-//http://localhost/nsirpg/InsertUser.php
+//http://localhost/nsirpg/insertuser.php
 
 //Does the username already exist?
 	$namecheckquery = "SELECT username FROM users WHERE username = '".$username."'";

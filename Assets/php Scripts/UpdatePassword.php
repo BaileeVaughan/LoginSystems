@@ -14,7 +14,7 @@
 	{
 		die("Connection Not Successful.".mysqli_connect_error());
 	}
-//http://localhost/nsirpg/UpdatePassword.php
+//http://localhost/nsirpg/updatepassword.php
 	
 //Change password by creating new hash
 	$salt = "\$5\$round=5000\$"."abcdefghijklmnopqrstuvwxyz1234567890".$username"\$";
