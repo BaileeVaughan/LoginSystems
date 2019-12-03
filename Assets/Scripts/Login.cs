@@ -13,6 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 public class Login : MonoBehaviour
 {
     [Header("Create New User")]
+    public GameObject mainLoginScreen;
     public InputField usernameInput;
     public InputField emailInput;
     public InputField passwordInput;
@@ -28,10 +29,6 @@ public class Login : MonoBehaviour
     public InputField newPasswordInput;
     public InputField newConfirmInput;
 
-    [Header("Notification")]
-    public GameObject notificationParent;
-    public Text notification;
-
     [Header("Code Management")]
     private string characters = "0123456789abcdefghijklmnopqrstuvwxABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private string code = "";
@@ -40,7 +37,7 @@ public class Login : MonoBehaviour
 
     IEnumerator CreateUser(string username, string email, string password) //Used to create a new user
     {
-        string createUserURL = "http://localhost/nsirpg/InsertUser.php";
+        string createUserURL = "http://localhost/nsirpg/insertuser.php";
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         form.AddField("email", email);
@@ -48,8 +45,6 @@ public class Login : MonoBehaviour
         UnityWebRequest webRequest = UnityWebRequest.Post(createUserURL, form);
         yield return webRequest.SendWebRequest();
         Debug.Log(webRequest);
-        StartCoroutine("Notification");
-        notification.text = "Account Created";
     }
 
     public void CreateNewUser() //Calls upon the co-routine to allow for use via button
@@ -59,7 +54,7 @@ public class Login : MonoBehaviour
 
     IEnumerator UserLogin(string username, string password) //Used to login the user
     {
-        string createUserURL = "http://localhost/nsirpg/UserLogin.php";
+        string createUserURL = "http://localhost/nsirpg/Login.php";
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         form.AddField("password", password);
@@ -68,12 +63,7 @@ public class Login : MonoBehaviour
         Debug.Log(webRequest.downloadHandler.text);
         if (webRequest.downloadHandler.text == "Logged In")
         {
-            SceneManager.LoadScene(1);
-        }
-        else
-        {
-            StartCoroutine("Notification");
-            notification.text = webRequest.downloadHandler.text;
+            mainLoginScreen.SetActive(true);
         }
     }
 
@@ -84,22 +74,13 @@ public class Login : MonoBehaviour
 
     IEnumerator ForgotUser(string email) //Used to register if the user has forgetten their password
     {
-        string forgotURL = "http://localhost/nsirpg/checkemail.php";
+        string forgotURL = "http://localhost/nsirpg/CheckEmail.php";
         WWWForm form = new WWWForm();
         form.AddField("email_Post", email);
         UnityWebRequest webRequest = UnityWebRequest.Post(forgotURL, form);
         yield return webRequest.SendWebRequest();
         Debug.Log(webRequest.downloadHandler.text);
-        if (webRequest.downloadHandler.text == "User Not Found")
-        {
-            StartCoroutine("Notification");
-            notification.text = webRequest.downloadHandler.text;
-        }
-        else
-        {
-            _username = webRequest.downloadHandler.text;
-            SendEmail(email);
-        }
+        SendEmail(email);
     }
 
     public void SubmitForgotUser() //Calls upon the co-routine to allow for use via button
@@ -128,13 +109,11 @@ public class Login : MonoBehaviour
         //send message
         smtpServer.Send(mail);
         Debug.Log("Sending Email");
-        StartCoroutine("Notification");
-        notification.text = "Email Sent";
     }
 
     void CreateCode() //Generates a code that will be used to change the password
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 5; i++)
         {
             int a = UnityEngine.Random.Range(0, characters.Length);
             code = code + characters[a];
@@ -149,11 +128,6 @@ public class Login : MonoBehaviour
         if (savedCode == _code)
         {
             newPassword.SetActive(true);
-        }
-        else
-        {
-            StartCoroutine("Notification");
-            notification.text = "Incorrect Code";
         }
         yield return null;
     }
@@ -176,22 +150,6 @@ public class Login : MonoBehaviour
             UnityWebRequest webRequest = UnityWebRequest.Post(passwordResetURL, form);
             yield return webRequest.SendWebRequest();
             Debug.Log(webRequest.downloadHandler.text);
-
-            if (webRequest.downloadHandler.text == "User Not Found")
-            {
-                StartCoroutine("Notification");
-                notification.text = webRequest.downloadHandler.text;
-            }
-            else if (webRequest.downloadHandler.text == "Password Changed")
-            {
-                StartCoroutine("Notification");
-                notification.text = webRequest.downloadHandler.text;
-            }
-        }
-        else
-        {
-            StartCoroutine("Notification");
-            notification.text = "Passwords do not Match";
         }
         yield return null;
     }
