@@ -6958,6 +6958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainLoginScreen: {fileID: 1703371301}
+  loggedInScreen: {fileID: 1121915766}
   usernameInput: {fileID: 140122861}
   emailInput: {fileID: 132553045}
   passwordInput: {fileID: 929102363}
@@ -7688,12 +7689,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1934482394}
-        m_MethodName: 
+      - m_Target: {fileID: 1934482399}
+        m_MethodName: CreateNewUser
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

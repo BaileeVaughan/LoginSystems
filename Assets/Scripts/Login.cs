@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Security.Cryptography.X509Certificates;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
-using System;
-using System.Net;
-using System.Net.Mail;
 using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
+using System.Collections;
+using System.Net.Mail;
+using UnityEngine.UI;
+using UnityEngine;
+using System.Net;
 
 public class Login : MonoBehaviour
 {
     [Header("Create New User")]
     public GameObject mainLoginScreen;
+    public GameObject loggedInScreen;
     public InputField usernameInput;
     public InputField emailInput;
     public InputField passwordInput;
@@ -37,7 +35,7 @@ public class Login : MonoBehaviour
 
     IEnumerator CreateUser(string username, string email, string password) //Used to create a new user
     {
-        string createUserURL = "http://localhost/nsirpg/insertuser.php";
+        string createUserURL = "http://localhost/nsirpg/InsertUser.php";
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         form.AddField("email", email);
@@ -54,7 +52,7 @@ public class Login : MonoBehaviour
 
     IEnumerator UserLogin(string username, string password) //Used to login the user
     {
-        string createUserURL = "http://localhost/nsirpg/Login.php";
+        string createUserURL = "http://localhost/nsirpg/UserLogin.php";
         WWWForm form = new WWWForm();
         form.AddField("username", username);
         form.AddField("password", password);
@@ -63,7 +61,8 @@ public class Login : MonoBehaviour
         Debug.Log(webRequest.downloadHandler.text);
         if (webRequest.downloadHandler.text == "Logged In")
         {
-            mainLoginScreen.SetActive(true);
+            mainLoginScreen.SetActive(false);
+            loggedInScreen.SetActive(true);
         }
     }
 
