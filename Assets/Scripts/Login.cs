@@ -42,7 +42,7 @@ public class Login : MonoBehaviour
         form.AddField("password", password);
         UnityWebRequest webRequest = UnityWebRequest.Post(createUserURL, form);
         yield return webRequest.SendWebRequest();
-        Debug.Log(webRequest);
+        Debug.Log(webRequest.downloadHandler.text);
     }
 
     public void CreateNewUser() //Calls upon the co-routine to allow for use via button
@@ -151,6 +151,7 @@ public class Login : MonoBehaviour
             Debug.Log(webRequest.downloadHandler.text);
         }
         yield return null;
+
     }
 
     public void SubmitPasswordReset() //Calls upon the co-routine to allow for use via button
